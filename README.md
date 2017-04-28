@@ -1,4 +1,5 @@
-# CS3102 File Distribution Practical
+# Multicast File Distribution
+This is a multicast file distribution protocol with implementation written in C. I have only tested this using ethernet multicast on a local network.
 
 ## Compiling
 To compile, run `make` in the src directory.
