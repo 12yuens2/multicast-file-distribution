@@ -2,7 +2,7 @@
 This is a multicast file distribution protocol with implementation written in C. I have only tested this using ethernet multicast on a local network.
 
 ## Compiling
-To compile, run `make` in the src directory.
+To compile, run `make` in the project directory. The `obj` and `out` directories will be created. Binaries for the server and client will be built into the `out` directory.
 
 
 ## Running the Server
@@ -18,8 +18,8 @@ Header information of the file specified at the given filepath will be printed w
 Usage: 
 `./client [server_ip] [destination_path] [port]`
 
-The client will get a file from the server specified by the server_ip and copy it to the directory specified by destination_path.
+The client will get a file from the server specified by the server_ip and copy it to the directory specified by the destination_path.
 
 
 ## Notes
-The code in the two files crc32.c and extern.h are taken from http://web.mit.edu/freebsd/head/usr.bin/cksum/
+The code in the two files `crc32.c` and `extern.h` are taken from http://web.mit.edu/freebsd/head/usr.bin/cksum/
