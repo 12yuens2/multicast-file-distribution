@@ -1,19 +1,34 @@
 CC = gcc
-FLAGS = -g
+FLAGS = -g -Wall -Wextra
 DEPS = header.h
 
-OBJ_DEPS = common.o crc32.o
+SRC_DIR = src
+OBJ_DIR = obj
+OUT_DIR = out
 
-%.o: %.c $(DEPS)
+OBJ_DEPS = $(OBJ_DIR)/common.o $(OBJ_DIR)/crc32.o
+SERVER_O = $(OBJ_DIR)/server.o
+CLIENT_O = $(OBJ_DIR)/client.o
+
+
+SOURCES := $(wildcard $(SRC_DIR)/*.c)
+HEADERS := $(wildcard $(SRC_DIR)/header.h)
+OBJECTS := $(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+all: setup server client
+
+setup:
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OUT_DIR)
+
+$(OBJECTS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	$(CC) $(FLAGS) -c $< -o $@
 
-all: server client
+server: $(SERVER_O) $(OBJ_DEPS)
+	$(CC) $(SERVER_O) $(OBJ_DEPS) $(FLAGS) -o $(OUT_DIR)/server
 
-server: server.o $(OBJ_DEPS)
-	$(CC) server.o $(OBJ_DEPS) $(FLAGS) -o server
-
-client: client.o $(OBJ_DEPS)
-	$(CC) client.o $(OBJ_DEPS) $(FLAGS) -o client
+client: $(CLIENT_O) $(OBJ_DEPS)
+	$(CC) $(CLIENT_O) $(OBJ_DEPS) $(FLAGS) -o $(OUT_DIR)/client
 
 clean:
-	rm -f *.o server client
+	rm -rf $(OBJ_DIR) $(OUT_DIR)

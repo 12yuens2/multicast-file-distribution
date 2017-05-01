@@ -84,7 +84,7 @@ void setup_client_tcp_socket(char* ip, int port)
   */
 void get_msg(void* buf, int len, int sd, struct sockaddr_in address)
 {
-    int addrlen;
+    socklen_t addrlen;
     if (recvfrom(sd, buf, len, 0, (struct sockaddr*) &address, &addrlen) < 0)
     {
         perror("Error on recvfrom\n");
@@ -98,7 +98,7 @@ void get_msg(void* buf, int len, int sd, struct sockaddr_in address)
   */
 void send_msg(int sd, const void* buf, size_t size)
 {
-    int nbytes = 0;
+    unsigned int nbytes = 0;
     if ((nbytes = send(sd, buf, size, 0)) != size)
     {
         printf("Sent a different number of bytes than expected\n");
@@ -147,6 +147,8 @@ int write_to_file(int fd, data_packet packet)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+
     char server_ip[IP_LENGTH];
     strcpy(server_ip, argv[1]);
 

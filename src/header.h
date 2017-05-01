@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <time.h>
+#include <inttypes.h>
 #include <sys/time.h>
 #include <sys/queue.h>
 #include <linux/limits.h>

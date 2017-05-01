@@ -229,8 +229,6 @@ void handleNackMessage(int sd, int window_number)
   */
 int handleClientMessage(int sd, int window_number, int acks, int* resend)
 {
-    nack_packet nack;
-
     control_packet msg;
     int nbytes;
     if ((nbytes = recv(sd, &msg, sizeof(control_packet), MSG_WAITALL)) < 0)
@@ -264,7 +262,7 @@ int handleClientMessage(int sd, int window_number, int acks, int* resend)
   */
 int accept_client_connection(header_packet header, int conns)
 {
-    int addrlen = sizeof(tcp_address);
+    socklen_t addrlen = sizeof(tcp_address);
     if ((client_sd[conns] = accept(tcp_sd, (struct sockaddr*) &tcp_address, &addrlen)) < 0)
     {
         perror("Failed to accept new connection\n");
@@ -281,6 +279,8 @@ int accept_client_connection(header_packet header, int conns)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+
     int num_clients = atoi(argv[1]);
     char file_to_send[PATH_MAX + MAX_FILENAME];
     strcpy(file_to_send, argv[2]);
@@ -382,7 +382,7 @@ int main(int argc, char const *argv[])
     clock_gettime(CLOCK_MONOTONIC_RAW, &stop_time);
 
     uint64_t time_taken = (stop_time.tv_sec - start_time.tv_sec) * 1000 + (stop_time.tv_nsec - start_time.tv_nsec) / 1000000;
-    printf("Time taken: %dms\n", time_taken);
+    printf("Time taken: %" PRIu64 "ms\n", time_taken);
 
     /* Clean up */
     for (int i = 0; i<connections; i++)
